@@ -4,35 +4,16 @@
 
 {% block body %}
 <section class="articles">
-    <article>
-        <h2>Trick name</h2>
-        <div class="metadata">Written the x at y in the z category</div>
-        <div class="content"><img src="http://placehold.it/350x150" alt="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque itaque magni
-                perspiciatis quae voluptate.</p>
-            <p>Accusantium adipisci at commodi, deserunt doloremque eius illo, nihil, obcaecati perspiciatis porro quas
-                ratione velit!</p>
+
+    {% for trick in tricks %}
+        <article>
+            <h2>{{ trick.title }}</h2>
+            <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the z category</div>
+            <div class="content"><img src="http://placehold.it/350x150" alt="">
+            {{ trick.description | raw }}
             <a href="{{ path('blog_show') }}" class="btn btn-primary">See more</a></div>
-    </article>
-    <article>
-        <h2>Trick name</h2>
-        <div class="metadata">Written the x at y in the z category</div>
-        <div class="content"><img src="http://placehold.it/350x150" alt="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque itaque magni
-                perspiciatis quae voluptate.</p>
-            <p>Accusantium adipisci at commodi, deserunt doloremque eius illo, nihil, obcaecati perspiciatis porro quas
-                ratione velit!</p>
-            <a href="{{ path('blog_show') }}" class="btn btn-primary">See more</a></div>
-    </article>
-    <article>
-        <h2>Trick name</h2>
-        <div class="metadata">Written the x at y in the z category</div>
-        <div class="content"><img src="http://placehold.it/350x150" alt="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque itaque magni
-                perspiciatis quae voluptate.</p>
-            <p>Accusantium adipisci at commodi, deserunt doloremque eius illo, nihil, obcaecati perspiciatis porro quas
-                ratione velit!</p>
-            <a href="{{ path('blog_show') }}" class="btn btn-primary">See more</a></div>
-    </article>
+        </article>
+    {% endfor %}
+
 </section>
 {% endblock %}
