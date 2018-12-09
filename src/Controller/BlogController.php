@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Trick;
@@ -11,10 +12,8 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(TrickRepository $repo)
     {
-        $repo = $this->getDoctrine()->getRepository(Trick::class);
-
         $tricks = $repo->findAll();
 
         return $this->render('blog/index.html.twig', [
@@ -26,12 +25,8 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function trick_show($id)
+    public function trick_show(Trick $trick)
     {
-        $repo = $this->getDoctrine()->getRepository(Trick::class);
-
-        $trick = $repo->find($id);
-
         return $this->render('blog/show.html.twig', [
             'trick' => $trick
         ]);
