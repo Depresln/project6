@@ -2,21 +2,10 @@
 
 {%  block body %}
     <article>
-        <h2>Trick name</h2>
-        <div class="metadata">Written the x at y in the z category</div>
+        <h2>{{ trick.title }}</h2>
+        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the z category</div>
         <div class="content"><img src="http://placehold.it/350x150" alt="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque itaque magni
-                perspiciatis quae voluptate.</p>
-            <p>Accusantium adipisci at commodi, deserunt doloremque eius illo, nihil, obcaecati perspiciatis porro quas
-                ratione velit!</p>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam cumque, dolor doloremque ex,
-                facilis hic ipsam itaque iure iusto magnam numquam obcaecati officia praesentium quaerat reiciendis
-                rerum vel voluptates! Accusamus adipisci atque autem consectetur culpa dolore excepturi expedita, facere
-                minima mollitia nam officia possimus quis ratione, reprehenderit similique voluptates!</p>
-            <p>Aperiam in minus nulla. Debitis expedita iste porro quam ullam ut vitae voluptates! At eveniet iste modi
-                rerum sed sequi tempore veritatis voluptates! Blanditiis distinctio dolores fuga labore non nostrum
-                perspiciatis quis rerum vero voluptas. Accusamus cum deleniti eaque iusto maiores natus odio ratione
-                repellendus temporibus ut. Autem excepturi, fugiat.</p>
+            {{ trick.description | raw }}
+        </div>
     </article>
 {%  endblock %}
