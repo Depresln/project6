@@ -16,7 +16,7 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{{ path('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Log in</a>
@@ -26,6 +26,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Log out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('blog_create') }}">Add a trick</a>
                     </li>
                 </ul>
             </div>

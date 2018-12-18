@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <h1>Trick creation</h1>
+
+    {{ form_start(formTrick) }}
+
+    {{ form_row(formTrick.title, {'attr': {'placeholder': "Trick name"}}) }}
+    {{ form_row(formTrick.description, {'attr': {'placeholder': "Trick description"}}) }}
+
+    <button type="submit" class="btn btn-success">Send trick</button>
+
+    {{ form_end(formTrick) }}
+
+{% endblock %}
