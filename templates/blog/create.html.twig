@@ -4,14 +4,24 @@
 
 {% block body %}
 
-    <h1>Trick creation</h1>
+    {% if editMode %}
+        <h1>Edit trick</h1>
+    {% else %}
+        <h1>Create trick</h1>
+    {% endif %}
 
     {{ form_start(formTrick) }}
 
     {{ form_row(formTrick.title, {'attr': {'placeholder': "Trick name"}}) }}
     {{ form_row(formTrick.description, {'attr': {'placeholder': "Trick description"}}) }}
 
-    <button type="submit" class="btn btn-success">Send trick</button>
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Save edit
+        {% else %}
+            Send trick
+        {% endif %}
+    </button>
 
     {{ form_end(formTrick) }}
 

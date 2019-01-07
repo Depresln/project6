@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\TrickType;
 use App\Repository\TrickRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Trick;
 
 class BlogController extends AbstractController
@@ -29,15 +27,15 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/blog/new", name="blog_create")
+     * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function createTrick(Request $request, ObjectManager $manager)
+    public function trickForm(Trick $trick = null, Request $request, EntityManagerInterface $manager)
     {
-        $trick = new Trick();
+        if(!$trick){
+            $trick = new Trick();
+        }
 
-        $form = $this->createFormBuilder($trick)
-                     ->add('title')
-                     ->add('description')
-                     ->getForm();
+        $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
@@ -51,7 +49,8 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/create.html.twig', [
-            'formTrick' => $form->createView()
+            'formTrick' => $form->createView(),
+            'editMode' => $trick->getId() !== null
         ]);
     }
 
