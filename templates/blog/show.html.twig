@@ -3,9 +3,24 @@
 {%  block body %}
     <article>
         <h2>{{ trick.title }}</h2>
-        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the z category</div>
+        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
         <div class="content"><img src="http://placehold.it/350x150" alt="">
             {{ trick.description | raw }}
         </div>
     </article>
+
+    <section id="comments">
+        {% for comment in trick.comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        Author (<small>{{ comment.createdAt | date('d/m/Y at H:i') }}</small>)
+                    </div>
+                    <div class="col">
+                        {{ comment.content | raw }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 {%  endblock %}
