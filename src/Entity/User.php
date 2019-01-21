@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -38,8 +39,15 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="3", minMessage="Password too short")
+     * @Assert\EqualTo(propertyPath="confirm_password", message="Passwords should be the same")
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Passwords should be the same")
+     */
+    public $confirm_password;
 
     /**
      * @ORM\Column(type="datetime")
@@ -65,8 +73,6 @@ class User
      * @ORM\Column(type="integer", nullable=true)
      */
     private $validate;
-
-    public $confirm_password;
 
     public function getId(): ?int
     {
