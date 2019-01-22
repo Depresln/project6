@@ -13,7 +13,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pseudo')
+            ->add('username')
             ->add('email')
             ->add('first_name')
             ->add('last_name')

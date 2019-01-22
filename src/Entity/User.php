@@ -3,12 +3,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="Email already exists"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,13 +25,14 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=45)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=45)
@@ -40,7 +47,6 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="3", minMessage="Password too short")
-     * @Assert\EqualTo(propertyPath="confirm_password", message="Passwords should be the same")
      */
     private $password;
 
@@ -91,14 +97,14 @@ class User
         return $this;
     }
 
-    public function getPseudo(): ?string
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
@@ -197,5 +203,20 @@ class User
         $this->validate = $validate;
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
     }
 }
