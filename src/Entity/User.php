@@ -13,6 +13,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields={"email"},
  *     message="Email already exists"
  * )
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     message="Username already exists"
+ * )
  */
 class User implements UserInterface
 {
@@ -207,12 +211,12 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+
     }
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+
     }
 
     public function getRoles()
