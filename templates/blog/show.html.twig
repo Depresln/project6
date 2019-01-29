@@ -10,6 +10,7 @@
     </article>
 
     <section id="comments">
+        <h3>{{ trick.comments | length }} comments</h3>
         {% for comment in trick.comments %}
             <div class="comment">
                 <div class="row">
@@ -22,5 +23,17 @@
                 </div>
             </div>
         {% endfor %}
+
+        {% if app.user %}
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.content, {'attr': {'placeholder': "Your comment"}}) }}
+
+        <button type="submit" class="btn btn-success">Comment</button>
+        {{ form_end(commentForm) }}
+
+        {% else %}
+            <h5>Log in to comment!</h5>
+            <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
+        {% endif %}
     </section>
 {%  endblock %}
