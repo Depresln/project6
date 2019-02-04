@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\TrickType;
@@ -70,7 +71,8 @@ class trickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $comment->setCreatedAt(new \DateTime())
-                    ->setTrick($trick);
+                    ->setTrick($trick)
+                    ->setUser($this->getUser());
 
             $manager->persist($comment);
             $manager->flush();
