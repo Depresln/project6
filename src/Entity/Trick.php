@@ -48,14 +48,15 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="tricks")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="media")
      */
-    private $media;
+    private $medias;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->media = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,28 +146,28 @@ class Trick
     /**
      * @return Collection|Media[]
      */
-    public function getMedia(): Collection
+    public function getMedias(): Collection
     {
-        return $this->media;
+        return $this->medias;
     }
 
-    public function addMedium(Media $medium): self
+    public function addMedia(Media $media): self
     {
-        if (!$this->media->contains($medium)) {
-            $this->media[] = $medium;
-            $medium->setTricks($this);
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setMedia($this);
         }
 
         return $this;
     }
 
-    public function removeMedium(Media $medium): self
+    public function removeMedia(Media $media): self
     {
-        if ($this->media->contains($medium)) {
-            $this->media->removeElement($medium);
+        if ($this->medias->contains($media)) {
+            $this->medias->removeElement($media);
             // set the owning side to null (unless already changed)
-            if ($medium->getTricks() === $this) {
-                $medium->setTricks(null);
+            if ($media->getMedia() === $this) {
+                $media->setMedia(null);
             }
         }
 
