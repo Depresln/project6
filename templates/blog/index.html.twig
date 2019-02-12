@@ -3,6 +3,9 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
+    <img src="{{ asset('img/SnowboardWallHome.jpg') }}" alt="SnowboardImage" class="img-fluid">
+    <h1 class="homeTitle text-center">SNOWTRICKS</h1>
+
 <section class="articles">
 
     {% for trick in tricks %}
@@ -10,10 +13,11 @@
             <h2>{{ trick.title }}</h2>
             <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
             <div class="content"><img src="http://placehold.it/350x150" alt="">
-                {{ trick.description | raw }}
+                <p>{{ trick.description | raw }}</p>
                 <a href="{{ path('blog_show', {'id': trick.id}) }}" class="btn btn-primary">See more</a>
             </div>
         </article>
+        <br />
     {% endfor %}
 
 </section>

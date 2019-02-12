@@ -21,7 +21,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255, minMessage="Title too short.")
+     * @Assert\Length(min=5, max=255, minMessage="Title too short.")
      */
     private $title;
 
@@ -51,6 +51,12 @@ class Trick
      * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="media")
      */
     private $medias;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -170,6 +176,18 @@ class Trick
                 $media->setMedia(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

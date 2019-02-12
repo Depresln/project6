@@ -3,9 +3,9 @@
 {%  block body %}
     <article>
         <h2>{{ trick.title }}</h2>
-        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
+        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>
         <div class="content"><img src="http://placehold.it/350x150" alt="">
-            {{ trick.description | raw }}
+            <p>{{ trick.description | raw }}</p>
         </div>
     </article>
 

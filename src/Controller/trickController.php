@@ -45,7 +45,8 @@ class trickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $trick->setCreatedAt(new \DateTime());
+            $trick->setCreatedAt(new \DateTime())
+                ->setUser($this->getUser());
 
             $manager->persist($trick);
             $manager->flush();
