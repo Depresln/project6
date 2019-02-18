@@ -10,22 +10,30 @@
 
         <section class="articles">
             <div class="row">
-
                     {% for trick in tricks %}
-                <div class="col-3">
-                        <article>
-                            <h2>{{ trick.title }}</h2>
-                            <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
-                            <div class="content"><img src="http://placehold.it/350x150" alt="" class="img-fluid">
-                                <p>{{ trick.description | raw }}</p>
-                                <a href="{{ path('blog_show', {'id': trick.id}) }}" class="btn btn-primary">See more</a>
-                            </div>
-                        </article>
-                </div>
+                        <div class="col-3">
+                            <article>
+                                <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
+                                <div class="content"><img src="http://placehold.it/350x150" alt="" class="img-fluid">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <a href="{{ path('blog_show', {'id': trick.id}) }}"><h4>{{ trick.title }}</h4></a>
+                                        </div>
+                                        {% if app.user %}
+                                            <div class="col-lg-2">
+                                                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <a href=""><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
                     {% endfor %}
-
             </div>
-
         </section>
+        <br />
     </div>
 {% endblock %}
