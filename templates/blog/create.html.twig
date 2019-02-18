@@ -3,27 +3,27 @@
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-
-    {% if editMode %}
-        <h1>Edit trick</h1>
-    {% else %}
-        <h1>Create trick</h1>
-    {% endif %}
-
-    {{ form_start(formTrick) }}
-
-    {{ form_row(formTrick.title, {'attr': {'placeholder': "Trick name"}}) }}
-    {{ form_row(formTrick.category) }}
-    {{ form_row(formTrick.description, {'attr': {'placeholder': "Trick description"}}) }}
-
-    <button type="submit" class="btn btn-success">
+    <div class="container">
         {% if editMode %}
-            Save edit
+            <h1>Edit trick</h1>
         {% else %}
-            Send trick
+            <h1>Create trick</h1>
         {% endif %}
-    </button>
 
-    {{ form_end(formTrick) }}
+        {{ form_start(formTrick) }}
 
+        {{ form_row(formTrick.title, {'attr': {'placeholder': "Trick name"}}) }}
+        {{ form_row(formTrick.category) }}
+        {{ form_row(formTrick.description, {'attr': {'placeholder': "Trick description"}}) }}
+
+        <button type="submit" class="btn btn-success">
+            {% if editMode %}
+                Save edit
+            {% else %}
+                Send trick
+            {% endif %}
+        </button>
+
+        {{ form_end(formTrick) }}
+    </div>
 {% endblock %}

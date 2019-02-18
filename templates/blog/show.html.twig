@@ -1,39 +1,48 @@
 {%  extends 'base.html.twig' %}
 
 {%  block body %}
-    <article>
-        <h2>{{ trick.title }}</h2>
-        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>
-        <div class="content"><img src="http://placehold.it/350x150" alt="">
-            <p>{{ trick.description | raw }}</p>
-        </div>
-    </article>
+    <div class="container">
+        <article>
+            <h2>{{ trick.title }}</h2>
+            <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>
+            <div class="content"><img src="http://placehold.it/350x150" alt="">
+                <p>{{ trick.description | raw }}</p>
+            </div>
+            {% if app.user %}
+                <a href="{{ path('blog_edit', {id: trick.id}) }}" class="btn btn-success">Edit</a>
+            {% else %}
+                <h5>Log in to edit!</h5>
+                <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
+            {% endif %}
+        </article>
+        <br />
 
-    <section id="comments">
-        <h3>{{ trick.comments | length }} comments</h3>
-        {% for comment in trick.comments %}
-            <div class="comment">
-                <div class="row">
-                    <div class="col-3">
-                        {{ comment.user.username }} (<small>{{ comment.createdAt | date('d/m/Y at H:i') }}</small>)
-                    </div>
-                    <div class="col">
-                        {{ comment.content | raw }}
+        <section id="comments">
+            <h3>{{ trick.comments | length }} comments</h3>
+            {% for comment in trick.comments %}
+                <div class="comment">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ comment.user.username }} (<small>{{ comment.createdAt | date('d/m/Y at H:i') }}</small>)
+                        </div>
+                        <div class="col">
+                            {{ comment.content | raw }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
 
-        {% if app.user %}
-        {{ form_start(commentForm) }}
-        {{ form_row(commentForm.content, {'attr': {'placeholder': "Your comment"}}) }}
+            {% if app.user %}
+            {{ form_start(commentForm) }}
+            {{ form_row(commentForm.content, {'attr': {'placeholder': "Your comment"}}) }}
 
-        <button type="submit" class="btn btn-success">Comment</button>
-        {{ form_end(commentForm) }}
+            <button type="submit" class="btn btn-success">Comment</button>
+            {{ form_end(commentForm) }}
 
-        {% else %}
-            <h5>Log in to comment!</h5>
-            <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
-        {% endif %}
-    </section>
+            {% else %}
+                <h5>Log in to comment!</h5>
+                <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
+            {% endif %}
+        </section>
+    </div>
 {%  endblock %}

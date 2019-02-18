@@ -3,22 +3,29 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-    <img src="{{ asset('img/SnowboardWallHome.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid rounded-circle" width="75%">
-    <h1 class="homeTitle text-center">SNOWTRICKS</h1>
+    <img src="{{ asset('img/snowboard.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid" width="100%">
 
-<section class="articles">
+    <div class="container">
+        <h1 class="homeTitle text-center">ALL TRICKS</h1>
 
-    {% for trick in tricks %}
-        <article>
-            <h2>{{ trick.title }}</h2>
-            <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
-            <div class="content"><img src="http://placehold.it/350x150" alt="">
-                <p>{{ trick.description | raw }}</p>
-                <a href="{{ path('blog_show', {'id': trick.id}) }}" class="btn btn-primary">See more</a>
+        <section class="articles">
+            <div class="row">
+
+                    {% for trick in tricks %}
+                <div class="col-3">
+                        <article>
+                            <h2>{{ trick.title }}</h2>
+                            <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
+                            <div class="content"><img src="http://placehold.it/350x150" alt="" class="img-fluid">
+                                <p>{{ trick.description | raw }}</p>
+                                <a href="{{ path('blog_show', {'id': trick.id}) }}" class="btn btn-primary">See more</a>
+                            </div>
+                        </article>
+                </div>
+                    {% endfor %}
+
             </div>
-        </article>
-        <br />
-    {% endfor %}
 
-</section>
+        </section>
+    </div>
 {% endblock %}
