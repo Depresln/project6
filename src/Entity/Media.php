@@ -29,12 +29,7 @@ class Media
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="media")
      */
-    private $tricks;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="medias")
-     */
-    private $media;
+    private $trick;
 
     public function getId(): ?int
     {
@@ -65,26 +60,14 @@ class Media
         return $this;
     }
 
-    public function getTricks(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->tricks;
+        return $this->trick;
     }
 
-    public function setTricks(?Trick $tricks): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->tricks = $tricks;
-
-        return $this;
-    }
-
-    public function getMedia(): ?Trick
-    {
-        return $this->media;
-    }
-
-    public function setMedia(?Trick $media): self
-    {
-        $this->media = $media;
+        $this->trick = $trick;
 
         return $this;
     }
