@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,5 +86,19 @@ class trickController extends AbstractController
             'trick' => $trick,
             'commentForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/user/{id}", name="user_space")
+     */
+    public function userSpace(User $user)
+    {
+//        if($user->getId() !== null){
+            return $this->render('blog/userSpace.html.twig', [
+                'user' => $user]);
+//        } else {
+//            echo "ERROR";
+//        }
+
     }
 }
