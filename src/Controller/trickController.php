@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Form\MediaType;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 
 class trickController extends AbstractController
 {
@@ -91,14 +93,26 @@ class trickController extends AbstractController
     /**
      * @Route("/user/{id}", name="user_space")
      */
-    public function userSpace(User $user)
+    public function userSpace(User $user, Request $request, ObjectManager $manager)
     {
-//        if($user->getId() !== null){
-            return $this->render('blog/userSpace.html.twig', [
-                'user' => $user]);
-//        } else {
-//            echo "ERROR";
-//        }
+        $media = new Media();
+        $form = $this->createForm(MediaType::class, $media);
 
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $media->setContent($media)
+                  ->setType("1");
+
+            $manager->persist($media);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog/userSpace.html.twig', ['id' => $user->getId()]);
+        }
+
+        return $this->render('blog/userSpace.html.twig', [
+                'user' => $user,
+                'mediaForm' => $form->createView()
+        ]);
     }
 }
