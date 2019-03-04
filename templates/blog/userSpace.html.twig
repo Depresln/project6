@@ -1,13 +1,13 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <div class="container">
         <h2>Your space</h2>
 
-        {{ form_start(mediaForm) }}
-        {{ form_row(mediaForm.content, {'attr': {'placeholder': "Pick a file"}}) }}
+        {{ form_start(avatarForm) }}
+        {{ form_row(avatarForm.avatar_img, {'attr': {'placeholder': "Pick a file"}}) }}
 
         <button type="submit" class="btn btn-success">Upload</button>
-        {{ form_end(mediaForm) }}
+        {{ form_end(avatarForm) }}
     </div>
 {% endblock %}

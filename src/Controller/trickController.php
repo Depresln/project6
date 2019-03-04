@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 use App\Entity\Media;
 use App\Entity\Trick;
@@ -14,7 +18,7 @@ use App\Entity\User;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\TrickType;
-use App\Form\MediaType;
+use App\Form\UserType;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 
@@ -39,6 +43,8 @@ class trickController extends AbstractController
      */
     public function trickForm(Trick $trick = null, Request $request, EntityManagerInterface $manager)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         if(!$trick){
             $trick = new Trick();
         }
@@ -91,28 +97,30 @@ class trickController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user_space")
+     * @Route("/user/{id}", name="user_space", defaults={"id"=0})
      */
-    public function userSpace(User $user, Request $request, ObjectManager $manager)
+    public function userSpace(FileUploader $fileUploader, Request $request, ObjectManager $manager)
     {
-        $media = new Media();
-        $form = $this->createForm(MediaType::class, $media);
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $newUser = new User();
+        $form = $this->createForm(UserType::class, $newUser);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $media->setContent($media)
-                  ->setType("1");
 
-            $manager->persist($media);
-            $manager->flush();
+            $file = $newUser->getAvatarImg();
+            $fileName = $fileUploader->upload($file);
 
-            return $this->redirectToRoute('blog/userSpace.html.twig', ['id' => $user->getId()]);
+            $newUser->setAvatarImg($fileName);
+
+            return $this->redirectToRoute('user_space', ['id' => $newUser->getId()]);
         }
 
         return $this->render('blog/userSpace.html.twig', [
-                'user' => $user,
-                'mediaForm' => $form->createView()
+                'user' => $newUser,
+                'avatarForm' => $form->createView()
         ]);
     }
 }

@@ -68,6 +68,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(mimeTypes={ "image/jpeg" })
      */
     private $avatar_img;
 
@@ -179,12 +182,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAvatarImg(): ?string
+    public function getAvatarImg()
     {
         return $this->avatar_img;
     }
 
-    public function setAvatarImg(?string $avatar_img): self
+    public function setAvatarImg($avatar_img): self
     {
         $this->avatar_img = $avatar_img;
 
