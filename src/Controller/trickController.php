@@ -99,7 +99,7 @@ class trickController extends AbstractController
     /**
      * @Route("/user/{id}", name="user_space", defaults={"id"=0})
      */
-    public function userSpace(FileUploader $fileUploader, Request $request, ObjectManager $manager)
+    public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -115,11 +115,11 @@ class trickController extends AbstractController
 
             $newUser->setAvatarImg($fileName);
 
-            return $this->redirectToRoute('user_space', ['id' => $newUser->getId()]);
+            return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
         }
 
         return $this->render('blog/userSpace.html.twig', [
-                'user' => $newUser,
+                'user' => $user,
                 'avatarForm' => $form->createView()
         ]);
     }

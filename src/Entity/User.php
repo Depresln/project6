@@ -69,8 +69,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "image/jpeg" })
+     * @Assert\NotBlank(message="Upload your image")
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
      */
     private $avatar_img;
 
