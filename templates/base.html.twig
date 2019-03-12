@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="script" href="{{ asset('js/main.js') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -30,6 +31,9 @@
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('blog_create') }}">Add a trick</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('user_space', {'id': app.user.id}) }}">My space</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('security_logout') }}">Log out</a>
