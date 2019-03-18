@@ -7,13 +7,13 @@
         {{ form_start(avatarForm) }}
 
         {{ form_row(avatarForm.username) }}
-        {{ form_row(avatarForm.avatar_img, {'attr': {'placeholder': "Pick a file"}}) }}
+        {{ form_row(avatarForm.avatarImg, {'attr': {'placeholder': "Pick a file"}}) }}
 
         <button type="submit" class="btn btn-success">Edit</button>
         {{ form_end(avatarForm) }}
 
 
-        <img src="{{ asset('img/' ~ user.avatar_img) }}" alt="user avatar" class="mx-auto d-block img-fluid" width="100%">
+        <img src="{{ asset('img/' ~ user.avatarImg) }}" alt="user avatar" class="mx-auto d-block img-fluid" width="100%">
 
 
     </div>

@@ -24,7 +24,7 @@
                                                 <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href=""><i class="fa fa-trash"></i></a>
+                                                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Voulez vous supprimer ce trick?');"><i class="fa fa-trash"></i></a>
                                             </div>
                                         {% endif %}
                                     </div>

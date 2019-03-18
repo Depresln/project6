@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="script" href="{{ asset('js/main.js') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -45,6 +44,6 @@
         <div class="container-fluid">
             {% block body %}{% endblock %}
         </div>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}<script src="{{ asset('js/main.js') }}"></script>{% endblock %}
     </body>
 </html>

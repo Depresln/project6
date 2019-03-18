@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -98,29 +99,20 @@ class trickController extends AbstractController
 
     /**
      * @Route("/blog/delete/{id}", name="blog_delete")
+     *
      */
-    public function delete(Trick $trick, Request $request, ObjectManager $manager)
+    public function delete(TrickRepository $repo, Request $request, $id)
     {
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
+        $trick = $repo->find($id);
 
-        $form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($trick);
+        $entityManager->flush();
 
-        if($form->isSubmitted() && $form->isValid()){
-            $comment->setCreatedAt(new \DateTime())
-                ->setTrick($trick)
-                ->setUser($this->getUser());
+        $response = new Response();
+        $response->send();
 
-            $manager->persist($comment);
-            $manager->flush();
-
-            return $this->redirectToRoute('blog_delete', ['id' => $trick->getId()]);
-        }
-
-        return $this->render('blog/show.html.twig', [
-            'trick' => $trick,
-            'commentForm' => $form->createView()
-        ]);
+        return $this->index($repo);
     }
 
     /**
@@ -155,6 +147,8 @@ class trickController extends AbstractController
 
             return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
         }
+
+        $user->setAvatarImg($saveImageName);
 
         return $this->render('blog/userSpace.html.twig', [
                 'user' => $user,

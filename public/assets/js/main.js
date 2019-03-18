@@ -6,7 +6,7 @@ if (tricks) {
             if (confirm('Are you sure?')) {
                 const id = e.target.getAttribute('data-id');
 
-                fetch(`/trick/delete/${id}`, {
+                fetch(`/blog/delete/${id}`, {
                     method: 'DELETE'
                 }).then(res => window.location.reload());
             }

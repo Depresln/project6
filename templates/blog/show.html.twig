@@ -24,6 +24,7 @@
                     <div class="row">
                         <div class="col-3">
                             {{ comment.user.username }} (<small>{{ comment.createdAt | date('d/m/Y at H:i') }}</small>)
+                            <img src="{{ asset('img/' ~ comment.user.avatarImg) }}" alt="user avatar" class="mx-auto d-block img-fluid" width="100%">
                         </div>
                         <div class="col">
                             {{ comment.content | raw }}

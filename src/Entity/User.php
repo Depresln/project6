@@ -72,7 +72,7 @@ class User implements UserInterface
      * @Assert\NotBlank(message="Upload your image")
      * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
      */
-    public $avatar_img;
+    private $avatar_img;
 
     /**
      * @ORM\Column(type="boolean")

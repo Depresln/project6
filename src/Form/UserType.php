@@ -15,7 +15,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('avatar_img', FileType::class)
+            ->add('avatarImg', FileType::class)
         ;
     }
 
