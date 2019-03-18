@@ -99,7 +99,6 @@ class trickController extends AbstractController
 
     /**
      * @Route("/blog/delete/{id}", name="blog_delete")
-     *
      */
     public function delete(TrickRepository $repo, Request $request, $id)
     {
@@ -121,8 +120,6 @@ class trickController extends AbstractController
     public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-//        $this->getUser();
 
         $saveImageName = $user->getAvatarImg();
         $user->setAvatarImg(NULL);
@@ -149,7 +146,7 @@ class trickController extends AbstractController
         }
 
         $user->setAvatarImg($saveImageName);
-
+dump($user);
         return $this->render('blog/userSpace.html.twig', [
                 'user' => $user,
                 'avatarForm' => $form->createView()

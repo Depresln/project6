@@ -21,7 +21,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255, minMessage="Title too short.")
+     * @Assert\Length(min=3, max=255, minMessage="Title too short.")
      */
     private $title;
 

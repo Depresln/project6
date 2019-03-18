@@ -4,6 +4,25 @@
     <div class="container">
         <h2>Your space</h2>
 
+        <div class="row">
+            <div class="col-2">
+                {% if user.avatarImg %}
+                    <img src="{{ asset('img/' ~ user.avatarImg) }}" alt="user avatar" class="mx-auto img-fluid" width="100%">
+                {% else %}
+                    <img src="http://placehold.it/500x500" alt="user avatar" class="mx-auto img-fluid" width="100%">
+                {% endif %}
+
+            </div>
+            <div class="col-10">
+                <p>Nickname: {{ user.username }}</p>
+                <p>First name: {{ user.firstName }}</p>
+                <p>Last name: {{ user.lastName }}</p>
+                <p>Member since {{ user.createdAt | date('d/m/Y') }}</p>
+            </div>
+        </div>
+
+        <hr />
+
         {{ form_start(avatarForm) }}
 
         {{ form_row(avatarForm.username) }}
@@ -11,10 +30,6 @@
 
         <button type="submit" class="btn btn-success">Edit</button>
         {{ form_end(avatarForm) }}
-
-
-        <img src="{{ asset('img/' ~ user.avatarImg) }}" alt="user avatar" class="mx-auto d-block img-fluid" width="100%">
-
 
     </div>
 {% endblock %}
