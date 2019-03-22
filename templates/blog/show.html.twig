@@ -28,7 +28,7 @@
                                     {{ comment.user.username }}
                                 </div>
                                 <div class="col-5 mx-auto d-block">
-                                    <img src="{{ asset('img/' ~ comment.user.avatarImg) }}" alt="user avatar" class="img-fluid" width="100%">
+                                    <a href="{{ path('user_space', {'id': comment.user.id}) }}"><img src="{{ asset('img/' ~ comment.user.avatarImg) }}" alt="user avatar" class="img-fluid" width="100%"></a>
                                 </div>
                             </div>
                         </div>

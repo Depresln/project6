@@ -100,7 +100,7 @@ class trickController extends AbstractController
     /**
      * @Route("/blog/delete/{id}", name="blog_delete")
      */
-    public function delete(TrickRepository $repo, Request $request, $id)
+    public function delete(TrickRepository $repo, $id)
     {
         $trick = $repo->find($id);
 
@@ -121,35 +121,43 @@ class trickController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $saveImageName = $user->getAvatarImg();
-        $user->setAvatarImg(NULL);
+        $check = $this->getUser();
 
-        $form = $this->createForm(UserType::class, $user);
+        if($user == $check){
+            $saveImageName = $user->getAvatarImg();
+            $user->setAvatarImg(NULL);
 
-        $form->handleRequest($request);
+            $form = $this->createForm(UserType::class, $user);
 
-        if($form->isSubmitted() && $form->isValid()){
+            $form->handleRequest($request);
 
-            $file = $user->getAvatarImg();
-            $fileName = $fileUploader->upload($file);
+            if($form->isSubmitted() && $form->isValid()){
 
-            if(empty($fileName)){
-                $fileName = $saveImageName;
+                $file = $user->getAvatarImg();
+                $fileName = $fileUploader->upload($file);
+
+                if(empty($fileName)){
+                    $fileName = $saveImageName;
+                }
+
+                $user->setAvatarImg($fileName);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
             }
 
-            $user->setAvatarImg($fileName);
+            $user->setAvatarImg($saveImageName);
 
-            $manager->persist($user);
-            $manager->flush();
-
-            return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
+            return $this->render('blog/userSpace.html.twig', [
+                    'user' => $user,
+                    'avatarForm' => $form->createView()
+            ]);
+        }else{
+            return $this->render('blog/userSpace.html.twig', [
+                'user' => $user
+            ]);
         }
-
-        $user->setAvatarImg($saveImageName);
-dump($user);
-        return $this->render('blog/userSpace.html.twig', [
-                'user' => $user,
-                'avatarForm' => $form->createView()
-        ]);
     }
 }

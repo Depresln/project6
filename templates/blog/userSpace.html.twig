@@ -11,7 +11,6 @@
                 {% else %}
                     <img src="http://placehold.it/500x500" alt="user avatar" class="mx-auto img-fluid" width="100%">
                 {% endif %}
-
             </div>
             <div class="col-10">
                 <p>Nickname: {{ user.username }}</p>
@@ -21,15 +20,15 @@
             </div>
         </div>
 
-        <hr />
+            {% if avatarForm is defined %}
+                <hr />
+                {{ form_start(avatarForm) }}
 
-        {{ form_start(avatarForm) }}
+                {{ form_row(avatarForm.username) }}
+                {{ form_row(avatarForm.avatarImg, {'attr': {'placeholder': "Pick a file"}}) }}
 
-        {{ form_row(avatarForm.username) }}
-        {{ form_row(avatarForm.avatarImg, {'attr': {'placeholder': "Pick a file"}}) }}
-
-        <button type="submit" class="btn btn-success">Edit</button>
-        {{ form_end(avatarForm) }}
-
+                <button type="submit" class="btn btn-success">Edit</button>
+                {{ form_end(avatarForm) }}
+            {% endif %}
     </div>
 {% endblock %}

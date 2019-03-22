@@ -24,6 +24,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
             $user->setCreatedAt(new \DateTime());
             $user->setIsAdmin(0);
             $user->setActive(0);

@@ -19,7 +19,7 @@
                                         <div class="col-lg-8">
                                             <a href="{{ path('blog_show', {'id': trick.id}) }}"><h4>{{ trick.title }}</h4></a>
                                         </div>
-                                        {% if app.user %}
+                                        {% if app.user == trick.user %}
                                             <div class="col-lg-2">
                                                 <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
                                             </div>
