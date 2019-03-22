@@ -28,6 +28,7 @@ class SecurityController extends AbstractController
             $user->setCreatedAt(new \DateTime());
             $user->setIsAdmin(0);
             $user->setActive(0);
+            $user->setAvatarImg("defaultAvatar.jpg");
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
