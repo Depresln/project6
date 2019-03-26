@@ -19,13 +19,6 @@
             </div>
             <br />
             <div class="metadata italic text-center">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>
-
-            {#{% if app.user %}#}
-                {#<a href="{{ path('blog_edit', {'id': trick.id}) }}" class="btn btn-success">Edit</a>#}
-            {#{% else %}#}
-                {#<h5>Log in to edit!</h5>#}
-                {#<a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>#}
-            {#{% endif %}#}
         </article>
         <hr />
 
