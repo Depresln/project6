@@ -48,7 +48,7 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="media")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="trick")
      */
     private $medias;
 
@@ -61,7 +61,6 @@ class Trick
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->media = new ArrayCollection();
         $this->medias = new ArrayCollection();
     }
 

@@ -3,7 +3,7 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-    <img src="{{ asset('img/snowboard.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid" width="100%">
+    <img src="{{ asset('img/snowboard.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid img-banner">
 
     <div class="container">
         <h1 class="homeTitle text-center">ALL TRICKS</h1>
@@ -19,7 +19,7 @@
                                         <div class="col-lg-8">
                                             <a href="{{ path('blog_show', {'id': trick.id}) }}"><h4>{{ trick.title }}</h4></a>
                                         </div>
-                                        {% if app.user == trick.user %}
+                                        {% if app.user == trick.user or app.user and app.user.isAdmin == "1" %}
                                             <div class="col-lg-2">
                                                 <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
                                             </div>

@@ -28,7 +28,7 @@ class Media
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="media")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="medias")
      */
     private $trick;
 

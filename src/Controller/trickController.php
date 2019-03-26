@@ -66,7 +66,8 @@ class trickController extends AbstractController
 
         return $this->render('blog/create.html.twig', [
             'formTrick' => $form->createView(),
-            'editMode' => $trick->getId() !== null
+            'editMode' => $trick->getId() !== null,
+            'trick' => $trick
         ]);
     }
 

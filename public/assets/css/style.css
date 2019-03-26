@@ -10,3 +10,41 @@ h2 {
 .container-fluid {
     padding: 0;
 }
+
+.img-banner {
+    width: 100%;
+}
+
+.text-center-banner {
+    position: relative;
+    width: 100%;
+}
+
+.text-center-banner .img-overlay {
+    display: block;
+    width: 100%;
+}
+
+.row-icon {
+    text-align: right;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.text-center-banner>h2 {
+    font-size: 6em;
+    text-shadow: 2px 2px 2px #000000;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.italic {
+    font-style: italic;
+}
