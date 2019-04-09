@@ -48,3 +48,17 @@ h2 {
 .italic {
     font-style: italic;
 }
+
+.mediaList {
+    width: 100%;
+}
+
+.trickDescription {
+    font-size: 1.6em;
+}
+
+.iconShow {
+    font-size: 36px;
+    margin-top: 20px;
+    margin-right: 20px;
+}

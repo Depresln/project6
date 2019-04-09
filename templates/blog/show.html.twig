@@ -3,19 +3,34 @@
 {%  block body %}
     <div class="text-center-banner">
         <img src="http://placehold.it/1920x920" alt="" class="mx-auto d-block img-fluid img-banner img-overlay">
-        {% if app.user == trick.user or app.user and app.user.isAdmin == "1" %}
+        {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
             <div class="row-icon">
-                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
-                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Voulez vous supprimer ce trick?');"><i class="fa fa-trash"></i></a>
+                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="iconShow fa fa-pencil"></i></a>
+                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Voulez vous supprimer ce trick?');"><i class="iconShow fa fa-trash"></i></a>
             </div>
         {% endif %}
         <h2>{{ trick.title }}</h2>
     </div>
+    <br />
 
     <div class="container">
+    <div class="row">
+        {% for media in trick.medias %}
+            {% if media.type == 1 %}
+                <div class="col-3">
+                    <img class="mediaList" src="{{ media.content }}" />
+                </div>
+            {% elseif media.type == 2 %}
+                <div class="col-3">
+                    <iframe class="mediaList" src="{{ media.content }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
         <article>
             <div class="content">
-                <p>{{ trick.description | raw }}</p>
+                <p class="trickDescription">{{ trick.description | raw }}</p>
             </div>
             <br />
             <div class="metadata italic text-center">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>

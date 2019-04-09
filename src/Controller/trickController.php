@@ -91,7 +91,6 @@ class trickController extends AbstractController
 
             return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
         }
-
         return $this->render('blog/show.html.twig', [
             'trick' => $trick,
             'commentForm' => $form->createView()
