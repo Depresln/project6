@@ -14,19 +14,22 @@
     <br />
 
     <div class="container">
-    <div class="row">
-        {% for media in trick.medias %}
-            {% if media.type == 1 %}
-                <div class="col-3">
-                    <img class="mediaList" src="{{ media.content }}" />
-                </div>
-            {% elseif media.type == 2 %}
-                <div class="col-3">
-                    <iframe class="mediaList" src="{{ media.content }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+        <div class="row">
+            <div class="col-3">
+                <a href="{{ path('add_media', {'id': trick.id}) }}">Add a media</a>
+            </div>
+            {% for media in trick.medias %}
+                {% if media.type == 1 %}
+                    <div class="col-3">
+                        <img class="mediaList" src="{{ asset('img/' ~ media.content ) }}" />
+                    </div>
+                {% elseif media.type == 2 %}
+                    <div class="col-3">
+                        <iframe class="mediaList" src="{{ media.content }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
         <article>
             <div class="content">

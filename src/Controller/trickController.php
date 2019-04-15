@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\MediaType;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,7 +43,7 @@ class trickController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function trickForm(Trick $trick = null, Request $request, EntityManagerInterface $manager)
+    public function trickForm(Trick $trick = null, Media $media, Request $request, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -64,10 +65,23 @@ class trickController extends AbstractController
             return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
         }
 
+        $formMedia = $this->createForm(MediaType::class, $media);
+        $formMedia->handleRequest($request);
+
+        if($formMedia->isSubmitted() && $form->isValid()){
+
+            $manager->persist($media);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+        }
+
         return $this->render('blog/create.html.twig', [
             'formTrick' => $form->createView(),
+            'formMedia' => $formMedia->createView(),
             'editMode' => $trick->getId() !== null,
-            'trick' => $trick
+            'trick' => $trick,
+            'media' => $media
         ]);
     }
 
@@ -159,5 +173,37 @@ class trickController extends AbstractController
                 'user' => $user
             ]);
         }
+    }
+
+    /**
+     * @Route("/addmedia/{id}", name="add_media")
+     */
+    public function addMedia(Trick $trick, FileUploader $fileUploader, Request $request, ObjectManager $manager)
+    {
+        $media = new Media();
+
+        $form = $this->createForm(MediaType::class, $media);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $file = $media->getContent();
+
+            $fileName = $fileUploader->upload($file);
+
+            $media->setContent($fileName);
+            $media->setTrick($trick);
+            $media->setType(1);
+
+            $manager->persist($media);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+        }
+
+        return $this->render('blog/addMedia.html.twig', [
+            'media' => $media,
+            'mediaForm' => $form->createView()
+        ]);
     }
 }
