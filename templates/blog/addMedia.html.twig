@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    {{ form_start(mediaForm) }}
-    {{ form_row(mediaForm.content, {'attr': {'placeholder': "Pick a file"}}) }}
-    <button type="submit" class="btn btn-success">Add</button>
-    {{ form_end(mediaForm) }}
+    <div class="container">
+    <h2>Add a media</h2>
+        {{ form_start(mediaForm) }}
+        {{ form_row(mediaForm.content, {'attr': {'placeholder': "Pick a file"}}) }}
+        <button type="submit" class="btn btn-success">Add</button>
+        {{ form_end(mediaForm) }}
+    </div>
 
 {% endblock %}

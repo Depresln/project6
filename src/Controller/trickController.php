@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\MediaType;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Entity\User;
 use App\Entity\Media;
@@ -20,9 +20,12 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Form\PassType;
 use App\Form\UserType;
+use App\Form\MediaType;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
+use App\Repository\MediaRepository;
 
 class trickController extends AbstractController
 {
@@ -43,7 +46,7 @@ class trickController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function trickForm(Trick $trick = null, Media $media, Request $request, EntityManagerInterface $manager)
+    public function trickForm(Trick $trick = null, Request $request, EntityManagerInterface $manager)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -65,23 +68,10 @@ class trickController extends AbstractController
             return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
         }
 
-        $formMedia = $this->createForm(MediaType::class, $media);
-        $formMedia->handleRequest($request);
-
-        if($formMedia->isSubmitted() && $form->isValid()){
-
-            $manager->persist($media);
-            $manager->flush();
-
-            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
-        }
-
         return $this->render('blog/create.html.twig', [
             'formTrick' => $form->createView(),
-            'formMedia' => $formMedia->createView(),
             'editMode' => $trick->getId() !== null,
-            'trick' => $trick,
-            'media' => $media
+            'trick' => $trick
         ]);
     }
 
@@ -131,7 +121,7 @@ class trickController extends AbstractController
     /**
      * @Route("/user/{id}", name="user_space")
      */
-    public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager)
+    public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -164,9 +154,25 @@ class trickController extends AbstractController
 
             $user->setAvatarImg($saveImageName);
 
+            $formPass = $this->createForm(PassType::class, $user);
+
+            $formPass->handleRequest($request);
+
+            if($formPass->isSubmitted() && $formPass->isValid()){
+
+                $hash = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($hash);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
+            }
+
             return $this->render('blog/userSpace.html.twig', [
                     'user' => $user,
-                    'avatarForm' => $form->createView()
+                    'avatarForm' => $form->createView(),
+                    'passwordForm' => $formPass->createView()
             ]);
         }else{
             return $this->render('blog/userSpace.html.twig', [
@@ -205,5 +211,22 @@ class trickController extends AbstractController
             'media' => $media,
             'mediaForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/media/delete/{id}", name="media_delete")
+     */
+    public function deleteMedia(MediaRepository $repo, $id)
+    {
+        $media = $repo->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($media);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+
+        return $this->index($repo);
     }
 }

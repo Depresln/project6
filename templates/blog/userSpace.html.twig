@@ -16,15 +16,24 @@
             </div>
         </div>
 
-            {% if avatarForm is defined %}
-                <hr />
-                {{ form_start(avatarForm) }}
+        {% if avatarForm is defined %}
+            <hr />
+            {{ form_start(avatarForm) }}
 
-                {{ form_row(avatarForm.username) }}
-                {{ form_row(avatarForm.avatarImg, {'attr': {'placeholder': "Pick a file"}}) }}
+            {{ form_row(avatarForm.username) }}
+            {{ form_row(avatarForm.avatarImg, {'attr': {'placeholder': "Pick a file"}}) }}
 
-                <button type="submit" class="btn btn-success">Edit</button>
-                {{ form_end(avatarForm) }}
-            {% endif %}
+            <button type="submit" class="btn btn-success">Edit</button>
+            {{ form_end(avatarForm) }}
+
+            <hr />
+            {{ form_start(passwordForm) }}
+
+            {{ form_row(passwordForm.password, {'attr': {'placeholder': 'New password'}}) }}
+            {{ form_row(passwordForm.confirm_password, {'attr': {'placeholder': 'Confirm new password'}}) }}
+
+            <button type="submit" class="btn btn-success">Edit</button>
+            {{ form_end(passwordForm) }}
+        {% endif %}
     </div>
 {% endblock %}
