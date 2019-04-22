@@ -123,12 +123,15 @@ class trickController extends AbstractController
      */
     public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
+        echo "formpass1";
+        dump($_REQUEST);
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $check = $this->getUser();
 
         if($user == $check){
             $saveImageName = $user->getAvatarImg();
+            $savePassword = $user->getPassword();
             $user->setAvatarImg(NULL);
 
             $form = $this->createForm(UserType::class, $user);
@@ -144,7 +147,16 @@ class trickController extends AbstractController
                     $fileName = $saveImageName;
                 }
 
+                $password = $user->getPassword();
+
+                if(empty($password)){
+                    $password = $savePassword;
+                }else{
+                    $password = $encoder->encodePassword($user, $user->getPassword());
+                }
+
                 $user->setAvatarImg($fileName);
+                $user->setPassword($password);
 
                 $manager->persist($user);
                 $manager->flush();
@@ -152,27 +164,11 @@ class trickController extends AbstractController
                 return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
             }
 
-            $user->setAvatarImg($saveImageName);
-
-            $formPass = $this->createForm(PassType::class, $user);
-
-            $formPass->handleRequest($request);
-
-            if($formPass->isSubmitted() && $formPass->isValid()){
-
-                $hash = $encoder->encodePassword($user, $user->getPassword());
-                $user->setPassword($hash);
-
-                $manager->persist($user);
-                $manager->flush();
-
-                return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
-            }
+//            $user->setAvatarImg($saveImageName);
 
             return $this->render('blog/userSpace.html.twig', [
                     'user' => $user,
-                    'avatarForm' => $form->createView(),
-                    'passwordForm' => $formPass->createView()
+                    'avatarForm' => $form->createView()
             ]);
         }else{
             return $this->render('blog/userSpace.html.twig', [
@@ -219,6 +215,7 @@ class trickController extends AbstractController
     public function deleteMedia(MediaRepository $repo, $id)
     {
         $media = $repo->find($id);
+        $trick = $media->getTrick();
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($media);
@@ -227,6 +224,6 @@ class trickController extends AbstractController
         $response = new Response();
         $response->send();
 
-        return $this->index($repo);
+        return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
     }
 }
