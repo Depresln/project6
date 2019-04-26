@@ -144,7 +144,9 @@ class trickController extends AbstractController
                     $fileName = $saveImageName;
                 }else{
                     $fileName = $fileUploader->upload($file);
-                    unlink($saveImageName); // care defaultavatar
+                    if($saveImageName != "defaultAvatar.jpg"){
+                        unlink(realpath("../public/assets/img/" . $saveImageName));
+                    }
                 }
 
                 $newPassword = $user->getPassword();
