@@ -65,7 +65,7 @@
 
             <hr />
             <h3>{{ trick.comments | length }} comments</h3>
-            {% for comment in trick.comments %}
+            {% for comment in trick.comments | reverse(true) %}
                 <div class="comment">
                     <div class="row">
                         <div class="col-3">

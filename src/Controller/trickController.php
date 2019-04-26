@@ -123,8 +123,6 @@ class trickController extends AbstractController
      */
     public function userSpace(User $user, FileUploader $fileUploader, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
-        echo "formpass1";
-        dump($_REQUEST);
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $check = $this->getUser();
@@ -141,18 +139,20 @@ class trickController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
 
                 $file = $user->getAvatarImg();
-                $fileName = $fileUploader->upload($file);
 
-                if(empty($fileName)){
+                if(empty($file)){
                     $fileName = $saveImageName;
+                }else{
+                    $fileName = $fileUploader->upload($file);
+                    unlink($saveImageName); // care defaultavatar
                 }
 
-                $password = $user->getPassword();
+                $newPassword = $user->getPassword();
 
-                if(empty($password)){
+                if(empty($newPassword)){
                     $password = $savePassword;
                 }else{
-                    $password = $encoder->encodePassword($user, $user->getPassword());
+                    $password = $encoder->encodePassword($user, $newPassword);
                 }
 
                 $user->setAvatarImg($fileName);
@@ -164,7 +164,7 @@ class trickController extends AbstractController
                 return $this->redirectToRoute('user_space', ['id' => $user->getId()]);
             }
 
-//            $user->setAvatarImg($saveImageName);
+            $user->setAvatarImg($saveImageName);
 
             return $this->render('blog/userSpace.html.twig', [
                     'user' => $user,

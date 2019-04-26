@@ -66,3 +66,10 @@ h2 {
     margin-top: 20px;
     margin-right: 20px;
 }
+
+#scrollToTop a {
+    position: fixed;
+    right: 7px;
+    bottom: 5%;
+    z-index: 1;
+}

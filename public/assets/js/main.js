@@ -13,3 +13,16 @@ if (tricks) {
         }
     });
 }
+
+$(window).scroll(function() {
+    if($(window).scrollTop() == 0){
+        $('#scrollToTop').fadeOut("fast");
+    } else {
+        if($('#scrollToTop').length == 0){
+            $('body').append('<div id="scrollToTop">'+
+                '<a href="#">Retour en haut</a>'+
+                '</div>');
+        }
+        $('#scrollToTop').fadeIn("fast");
+    }
+});

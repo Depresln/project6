@@ -16,9 +16,15 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('avatarImg', FileType::class)
-            ->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class)
+            ->add('avatarImg', FileType::class, [
+                'required' => false
+            ])
+            ->add('password', PasswordType::class, [
+                'required' => false
+            ])
+            ->add('confirm_password', PasswordType::class, [
+                'required' => false
+            ])
         ;
     }
 
