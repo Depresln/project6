@@ -95,8 +95,18 @@ class trickController extends AbstractController
 
             return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
         }
+
+        $hasImage = FALSE;
+        foreach ($trick->getMedias() as $media){
+            if($media->getType() == 1){
+                $hasImage = TRUE;
+                break;
+            }
+        }
+
         return $this->render('blog/show.html.twig', [
             'trick' => $trick,
+            'hasImage' => $hasImage,
             'commentForm' => $form->createView()
         ]);
     }

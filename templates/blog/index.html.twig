@@ -3,10 +3,13 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-    <img src="{{ asset('img/snowboard.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid img-banner">
+    <div class="main-text-center-banner">
+        <img src="{{ asset('img/snowboard.jpg') }}" alt="SnowboardImage" class="mx-auto d-block img-fluid img-banner img-overlay">
+        <a href="#trickList"><i class="down-arrow-icon fa fa-arrow-down"></i></a>
+    </div>
 
     <div class="container">
-        <h1 class="homeTitle text-center">ALL TRICKS</h1>
+        <h1 id="trickList" class="homeTitle text-center">ALL TRICKS</h1>
 
         <section class="articles">
             <div class="row">
