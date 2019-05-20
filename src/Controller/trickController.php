@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 use App\Entity\User;
 use App\Entity\Media;
@@ -26,6 +27,7 @@ use App\Form\MediaType;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use App\Repository\MediaRepository;
+use App\Repository\CommentRepository;
 
 class trickController extends AbstractController
 {
@@ -36,9 +38,19 @@ class trickController extends AbstractController
     {
         $tricks = $repo->findAll();
 
+//        $hasImage = FALSE;
+//        foreach ($trick->getMedias() as $media) {
+//            if ($media->getType() == 1) {
+//                $hasImage = TRUE;
+//                break;
+//            }
+//        }
+
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'trickController',
             'tricks'  => $tricks
+//            ,
+//            'hasImage' => $hasImage
         ]);
     }
 
@@ -78,10 +90,18 @@ class trickController extends AbstractController
     /**
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Trick $trick, Request $request, ObjectManager $manager)
+    public function show(PaginatorInterface $paginator, Trick $trick, Request $request, ObjectManager $manager)
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
+
+        $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
+
+        $paginatedComments = $paginator->paginate(
+            $commentRepository->findAllVisibleQuery($trick),
+            $request->query->getInt('page', 1),
+            10
+        );
 
         $form->handleRequest($request);
 
@@ -106,6 +126,7 @@ class trickController extends AbstractController
 
         return $this->render('blog/show.html.twig', [
             'trick' => $trick,
+            'paginatedComments' => $paginatedComments,
             'hasImage' => $hasImage,
             'commentForm' => $form->createView()
         ]);

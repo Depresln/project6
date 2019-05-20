@@ -76,7 +76,7 @@
 
             <hr />
             <h3>{{ trick.comments | length }} comments</h3>
-            {% for comment in trick.comments | reverse(true) %}
+            {% for comment in paginatedComments | reverse(true) %}
                 <div class="comment">
                     <div class="row">
                         <div class="col-3">
@@ -103,6 +103,9 @@
                 </div>
                 <hr />
             {% endfor %}
+            <div class="pagination">
+                {{ knp_pagination_render(paginatedComments) }}
+            </div>
         </section>
     </div>
 {%  endblock %}

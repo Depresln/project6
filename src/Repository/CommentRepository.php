@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Query;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,15 @@ class CommentRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Comment::class);
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllVisibleQuery($trick): Query
+    {
+        return $this->createQueryBuilder('c')->where('c.trick = ?1')
+            ->setParameter(1, $trick)->getQuery();
     }
 
     // /**
