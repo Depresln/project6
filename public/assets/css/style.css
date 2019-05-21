@@ -1,14 +1,32 @@
-.homeTitle {
-    font-weight: bold;
-    color: #5eb5e0;
+/* RESPONSIVE */
+
+@media all and (max-width: 1024px) {
+
+}
+
+@media all and (max-width: 768px) {
+
+}
+
+@media all and (max-width: 1919px) {
+
+}
+
+
+
+/* TITLES AND BANNERS */
+
+.container-fluid {
+    padding: 0;
 }
 
 h2 {
     color: #5eb5e0;
 }
 
-.container-fluid {
-    padding: 0;
+.homeTitle {
+    font-weight: bold;
+    color: #5eb5e0;
 }
 
 .img-banner {
@@ -45,10 +63,6 @@ h2 {
     width: 100%;
 }
 
-.italic {
-    font-style: italic;
-}
-
 .mediaList {
     margin-bottom: 20px;
     width: 100%;
@@ -57,21 +71,10 @@ h2 {
     max-height: 200px;
 }
 
-.trickDescription {
-    font-size: 1.6em;
-}
-
 .iconShow {
     font-size: 36px;
     margin-top: 20px;
     margin-right: 20px;
-}
-
-#scrollToTop a {
-    position: fixed;
-    right: 7px;
-    bottom: 5%;
-    z-index: 1;
 }
 
 .main-text-center-banner {
@@ -84,6 +87,18 @@ h2 {
     width: 100%;
 }
 
+
+
+/* NAVIGATION */
+
+#scrollToTop a {
+    position: fixed;
+    right: 7px;
+    bottom: 5%;
+    z-index: 1;
+}
+
+
 .down-arrow-icon {
     font-size: 2em;
     text-align: center;
@@ -92,4 +107,16 @@ h2 {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+
+
+/* TEXT */
+
+.trickDescription {
+    font-size: 1.6em;
+}
+
+.italic {
+    font-style: italic;
 }

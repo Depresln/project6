@@ -36,7 +36,8 @@ class trickController extends AbstractController
      */
     public function index(TrickRepository $repo)
     {
-        $tricks = $repo->findAll();
+        $limit = 5;
+        $tricks = $repo->findAllByLimit($limit);
 
 //        $hasImage = FALSE;
 //        foreach ($trick->getMedias() as $media) {
@@ -48,8 +49,8 @@ class trickController extends AbstractController
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'trickController',
+            'limit' => $limit,
             'tricks'  => $tricks
-//            ,
 //            'hasImage' => $hasImage
         ]);
     }
