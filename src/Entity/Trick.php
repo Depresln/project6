@@ -166,6 +166,17 @@ class Trick
         return $this;
     }
 
+    public function getFirstMediaImage()
+    {
+        foreach($this->getMedias() as $currentMedia){
+            if($currentMedia->getType() == 1){
+                return $currentMedia->getContent();
+            }
+        }
+
+        return 'defaultAvatar.jpg';
+    }
+
     public function removeMedia(Media $media): self
     {
         if ($this->medias->contains($media)) {

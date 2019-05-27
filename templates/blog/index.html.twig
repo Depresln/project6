@@ -18,19 +18,7 @@
                             <article>
                                 <div class="content">
 
-                                    <a href="{{ path('blog_show', {'id': trick.id}) }}"><img src="http://placehold.it/350x150" alt="" class="img-fluid"></a>
-
-                                    {#{% if hasImage == false %}#}
-                                        {#<img src="http://placehold.it/350x150" alt="" class="img-fluid">#}
-                                    {#{% else %}#}
-                                        {#{% set break = false %}#}
-                                        {#{% for media in trick.medias if not break %}#}
-                                            {#{% if media.type == 1 %}#}
-                                    {#<a href="{{ path('blog_show', {'id': trick.id}) }}"><img src="{{ asset('img/' ~ media.content ) }}" alt="" class="img-fluid"></a>#}
-                                                {#{% set break = true %}#}
-                                            {#{% endif %}#}
-                                        {#{% endfor %}#}
-                                    {#{% endif %}#}
+                                    <a href="{{ path('blog_show', {'id': trick.id}) }}"><img src="{{ asset('img/' ~ trick.getFirstMediaImage ) }}" alt="" class="img-fluid"></a>
 
                                     <div class="row">
                                         <div class="col-sm-6 col-lg-8">

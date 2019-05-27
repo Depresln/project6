@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,24 +35,15 @@ class trickController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(TrickRepository $repo)
+    public function index(TrickRepository $repo, Request $request)
     {
         $limit = 5;
         $tricks = $repo->findAllByLimit($limit);
-
-//        $hasImage = FALSE;
-//        foreach ($trick->getMedias() as $media) {
-//            if ($media->getType() == 1) {
-//                $hasImage = TRUE;
-//                break;
-//            }
-//        }
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'trickController',
             'limit' => $limit,
             'tricks'  => $tricks
-//            'hasImage' => $hasImage
         ]);
     }
 

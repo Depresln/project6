@@ -25,7 +25,7 @@ class CommentRepository extends ServiceEntityRepository
      */
     public function findAllVisibleQuery($trick): Query
     {
-        return $this->createQueryBuilder('c')->where('c.trick = ?1')
+        return $this->createQueryBuilder('c')->where('c.trick = ?1')->orderBy('c.id', 'DESC')
             ->setParameter(1, $trick)->getQuery();
     }
 
