@@ -37,12 +37,16 @@ class trickController extends AbstractController
      */
     public function index(TrickRepository $repo, Request $request)
     {
-        $limit = 5;
+        if(isset($_GET['limit'])){
+            $limit = $_GET['limit'];
+        } else {
+            $limit = 5;
+        }
+
         $tricks = $repo->findAllByLimit($limit);
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'trickController',
-            'limit' => $limit,
             'tricks'  => $tricks
         ]);
     }
