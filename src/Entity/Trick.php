@@ -174,7 +174,7 @@ class Trick
             }
         }
 
-        return 'defaultAvatar.jpg';
+        return 'placeholder.jpg';
     }
 
     public function removeMedia(Media $media): self

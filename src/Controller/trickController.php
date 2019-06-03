@@ -25,6 +25,7 @@ use App\Form\TrickType;
 use App\Form\PassType;
 use App\Form\UserType;
 use App\Form\MediaType;
+use App\Form\VideoType;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use App\Repository\MediaRepository;
@@ -37,16 +38,15 @@ class trickController extends AbstractController
      */
     public function index(TrickRepository $repo, Request $request)
     {
-        if(isset($_GET['limit'])){
-            $limit = $_GET['limit'];
-        } else {
-            $limit = 5;
-        }
+        $limit = $request->query->get('limit', 5);
+        $newLimit = $limit + 10;
+
 
         $tricks = $repo->findAllByLimit($limit);
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'trickController',
+            'newLimit' => $newLimit,
             'tricks'  => $tricks
         ]);
     }
@@ -233,9 +233,25 @@ class trickController extends AbstractController
             return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
         }
 
+        $formVideo = $this->createForm(VideoType::class, $media);
+
+        $formVideo->handleRequest($request);
+
+        if($formVideo->isSubmitted() && $formVideo->isValid()){
+
+            $media->setTrick($trick);
+            $media->setType(2);
+
+            $manager->persist($media);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+        }
+
         return $this->render('blog/addMedia.html.twig', [
             'media' => $media,
-            'mediaForm' => $form->createView()
+            'mediaForm' => $form->createView(),
+            'mediaVideoForm' => $formVideo->createView()
         ]);
     }
 
