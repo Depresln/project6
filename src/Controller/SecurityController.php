@@ -57,6 +57,26 @@ class SecurityController extends AbstractController
      */
     public function logout() {}
 
+    public function sendMail($mail, \Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('admin@snowtricks.com')
+            ->setTo($mail)
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/registration.html.twig',
+                    ['name' => $name]
+                ),
+                'text/html'
+            )
+        ;
+
+        $mailer->send($message);
+
+        return $this->redirectToRoute('security_login');
+    }
+
     /**
      * @Route("/reset", name="reset_password")
      */
@@ -78,23 +98,9 @@ class SecurityController extends AbstractController
         return $this->render('security/reset.html.twig');
     }
 
-    public function sendMail($mail, \Swift_Mailer $mailer)
-    {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('admin@snowtricks.com')
-            ->setTo($mail)
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'emails/registration.html.twig',
-                    ['name' => $name]
-                ),
-                'text/html'
-            )
-        ;
-
-        $mailer->send($message);
-
-        return $this->redirectToRoute('security_login');
-    }
+//$to_email = $user->getEmail;
+//$subject = 'Testing PHP Mail';
+//$message = 'This mail is sent using the PHP mail function';
+//$headers = 'From: noreply @ company . com';
+//mail($to_email,$subject,$message,$headers);
 }
