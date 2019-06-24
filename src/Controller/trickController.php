@@ -140,10 +140,7 @@ class trickController extends AbstractController
         $entityManager->remove($trick);
         $entityManager->flush();
 
-        $response = new Response();
-        $response->send();
-
-        return $this->index($repo);
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -261,15 +258,16 @@ class trickController extends AbstractController
     public function deleteMedia(MediaRepository $repo, $id)
     {
         $media = $repo->find($id);
-        $trick = $media->getTrick();
+        if ($media != NULL){
+            $trick = $media->getTrick();
+            $idTrick = $trick->getId();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($media);
-        $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($media);
+            $entityManager->flush();
 
-        $response = new Response();
-        $response->send();
-
-        return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('blog_show', ['id' => $idTrick]);
+        }
+        return $this->redirectToRoute('home');
     }
 }
