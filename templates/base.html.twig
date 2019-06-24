@@ -46,6 +46,7 @@
         </nav>
         <div class="container-fluid">
             {% block body %}{% endblock %}
+            <div id="scrollToTop"><a class="btn btn-default gotop" href="#"><i class="fa fa-arrow-up fa-2x"></i></a></div>
         </div>
         {% block javascripts %}<script src="{{ asset('js/main.js') }}"></script>{% endblock %}
     </body>

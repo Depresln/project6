@@ -78,7 +78,7 @@ h2 {
 #scrollToTop a {
     position: fixed;
     right: 7px;
-    bottom: 5%;
+    bottom: 1%;
     z-index: 1;
 }
 
