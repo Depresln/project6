@@ -87,7 +87,7 @@
                                     <small>{{ comment.createdAt | date('d/m/Y') }} at {{ comment.createdAt | date('H:i') }}</small>
                                 </div>
                                 <div class="col-12">
-                                    {{ comment.content | raw }}
+                                    {{ comment.content | raw | escape }}
                                 </div>
                             </div>
                         </div>

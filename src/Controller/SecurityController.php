@@ -57,40 +57,21 @@ class SecurityController extends AbstractController
      */
     public function logout() {}
 
-    public function sendMail($mail, \Swift_Mailer $mailer)
-    {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('admin@snowtricks.com')
-            ->setTo($mail)
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'emails/registration.html.twig',
-                    ['name' => $name]
-                ),
-                'text/html'
-            )
-        ;
-
-        $mailer->send($message);
-
-        return $this->redirectToRoute('security_login');
-    }
-
     /**
      * @Route("/reset", name="reset_password")
      */
     public function resetPassword(Request $request, ObjectManager $manager)
     {
-        $user = new User();
+        $mail = $request->get("_username");
 
-        $form = $this->createForm(RegistrationType::class, $user);
-        $form->handleRequest($request);
+        if(!empty($mail)){
+            $to_email = $mail;
+            $token = md5(uniqid(rand(), true));
 
-        if($form->isSubmitted() && $form->isValid()){
-
-            $mail = $user->getEmail();
-            $this->sendMail($mail, $mailer);
+            $subject = 'Reset password - Snowtricks';
+            $message = 'Someone asked to reset your password. If it\'s you, click on the following link to continue the reset process: www.project6.nicolasdep.com/resetPW?token=' . $token;
+            $headers = 'From: noreply@snowtricks.com';
+            mail($to_email,$subject,$message,$headers);
 
             return $this->redirectToRoute('security_login');
         }
@@ -98,9 +79,11 @@ class SecurityController extends AbstractController
         return $this->render('security/reset.html.twig');
     }
 
-//$to_email = $user->getEmail;
-//$subject = 'Testing PHP Mail';
-//$message = 'This mail is sent using the PHP mail function';
-//$headers = 'From: noreply @ company . com';
-//mail($to_email,$subject,$message,$headers);
+    /**
+     * @Route("/resetPW", name="reset_confirm")
+     */
+    public function resetPW()
+    {
+        echo "Function not available yet, please come back later";
+    }
 }
