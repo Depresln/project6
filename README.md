@@ -1,0 +1,2 @@
+# project6
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d67986d41c984cccbd52c14a9f5988f0)](https://app.codacy.com/app/Depresln/project6?utm_source=github.com&utm_medium=referral&utm_content=Depresln/project6&utm_campaign=Badge_Grade_Dashboard)
