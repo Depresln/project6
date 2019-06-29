@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    <h2>Add a media</h2>
+        {{ form_start(mediaForm) }}
+        {{ form_row(mediaForm.content, {'attr': {'placeholder': "Pick a file"}}) }}
+        <button type="submit" class="btn btn-success">Add</button>
+        {{ form_end(mediaForm) }}
+
+    <br />
+
+        {{ form_start(mediaVideoForm) }}
+        {{ form_row(mediaVideoForm.content, {'attr': {'placeholder': "Enter an embed Youtube URL"}}) }}
+        <button type="submit" class="btn btn-success">Add</button>
+        {{ form_end(mediaVideoForm) }}
+    </div>
+
+{% endblock %}

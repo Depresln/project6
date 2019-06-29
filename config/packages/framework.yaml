@@ -11,6 +11,9 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
+    assets:
+            base_path: '/assets'
+
     #esi: true
     #fragments: true
     php_errors:

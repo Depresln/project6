@@ -21,7 +21,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255, minMessage="Title too short.")
+     * @Assert\Length(min=3, max=255, minMessage="Title too short.")
      */
     private $title;
 
@@ -48,14 +48,19 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="media")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="trick")
      */
     private $medias;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->media = new ArrayCollection();
         $this->medias = new ArrayCollection();
     }
 
@@ -161,6 +166,17 @@ class Trick
         return $this;
     }
 
+    public function getFirstMediaImage()
+    {
+        foreach($this->getMedias() as $currentMedia){
+            if($currentMedia->getType() == 1){
+                return $currentMedia->getContent();
+            }
+        }
+
+        return 'placeholder.jpg';
+    }
+
     public function removeMedia(Media $media): self
     {
         if ($this->medias->contains($media)) {
@@ -170,6 +186,18 @@ class Trick
                 $media->setMedia(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

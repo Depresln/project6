@@ -1,39 +1,103 @@
 {%  extends 'base.html.twig' %}
 
 {%  block body %}
-    <article>
-        <h2>{{ trick.title }}</h2>
-        <div class="metadata">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category</div>
-        <div class="content"><img src="http://placehold.it/350x150" alt="">
-            {{ trick.description | raw }}
-        </div>
-    </article>
+    <div class="text-center-banner">
+        <img src="{{ asset('img/' ~ trick.getFirstMediaImage ) }}" alt="" class="test mx-auto d-block img-fluid img-banner img-overlay">
 
-    <section id="comments">
-        <h3>{{ trick.comments | length }} comments</h3>
-        {% for comment in trick.comments %}
-            <div class="comment">
-                <div class="row">
-                    <div class="col-3">
-                        {{ comment.user.username }} (<small>{{ comment.createdAt | date('d/m/Y at H:i') }}</small>)
+        {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
+            <div class="row-icon">
+                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="iconShow fa fa-pencil"></i></a>
+                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Delete trick?');"><i class="iconShow fa fa-trash"></i></a>
+            </div>
+        {% endif %}
+        <h2>{{ trick.title }}</h2>
+    </div>
+    <br />
+
+    <div class="container">
+        <div class="row">
+            {% if app.user %}
+            <div class="d-none d-sm-inline col-sm-6 col-md-4 col-lg-3">
+                <a href="{{ path('add_media', {'id': trick.id}) }}"><img class="mediaList mediaAddBtn" src="{{ asset('img/addMedia.png') }}" /></a>
+            </div>
+            {% endif %}
+            {% for media in trick.medias %}
+                {% if media.type == 1 %}
+                    <div class="d-none d-sm-inline col-sm-6 col-md-4 col-lg-3">
+                        <img class="mediaList" src="{{ asset('img/' ~ media.content ) }}" />
+                        {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
+                            <div class="row-icon">
+                                <a href="{{ path('media_delete', {'id': media.id}) }}" onclick="return confirm('Delete media?');"><i class="iconShow fa fa-trash"></i></a>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="col">
-                        {{ comment.content | raw }}
+                {% elseif media.type == 2 %}
+                    <div class="d-none d-sm-inline col-sm-6 col-md-4 col-lg-3">
+                        <iframe class="mediaList" src="{{ media.content }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
+                            <div class="row-icon">
+                                <a href="{{ path('media_delete', {'id': media.id}) }}" onclick="return confirm('Delete media?');"><i class="iconShow fa fa-trash"></i></a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br />
+
+        <article>
+            <div class="content">
+                <p class="trickDescription">{{ trick.description | raw }}</p>
+            </div>
+            <br />
+            <div class="metadata italic text-center">Written the {{ trick.createdAt | date('d/m/Y') }} at {{ trick.createdAt | date('H:i') }} in the {{ trick.category.title }} category by {{ trick.user.username }}</div>
+        </article>
+        <hr />
+
+        <section id="comments">
+            {% if app.user %}
+                {{ form_start(commentForm) }}
+                {{ form_row(commentForm.content, {'attr': {'placeholder': "Your comment"}}) }}
+
+                <button type="submit" class="btn btn-success">Comment</button>
+                {{ form_end(commentForm) }}
+            {% else %}
+                <h5>Log in to comment!</h5>
+                <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
+            {% endif %}
+
+            <hr />
+            <h3>{{ trick.comments | length }} comments</h3>
+            {% for comment in paginatedComments %}
+                <div class="comment">
+                    <div class="row">
+                        <div class="col-sm-3 d-sm-block">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <a href="{{ path('user_space', {'id': comment.user.id}) }}">{{ comment.user.username }}</a>
+                                </div>
+                                <div class="d-none d-sm-block col-sm-12 col-md-8 col-lg-6 mx-auto">
+                                    <a href="{{ path('user_space', {'id': comment.user.id}) }}"><img src="{{ asset('img/' ~ comment.user.avatarImg) }}" alt="user avatar" class="img-fluid img-banner"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9 d-sm-block">
+                            <div class="row">
+                                <div class="col-12">
+                                    <small>{{ comment.createdAt | date('d/m/Y') }} at {{ comment.createdAt | date('H:i') }}</small>
+                                </div>
+                                <div class="col-12">
+                                    {{ comment.content | raw | escape }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <hr />
+            {% endfor %}
+            <div class="pagination">
+                {{ knp_pagination_render(paginatedComments) }}
             </div>
-        {% endfor %}
-
-        {% if app.user %}
-        {{ form_start(commentForm) }}
-        {{ form_row(commentForm.content, {'attr': {'placeholder': "Your comment"}}) }}
-
-        <button type="submit" class="btn btn-success">Comment</button>
-        {{ form_end(commentForm) }}
-
-        {% else %}
-            <h5>Log in to comment!</h5>
-            <a href="{{ path('security_login') }}" class="btn btn-primary">Log in</a>
-        {% endif %}
-    </section>
+        </section>
+    </div>
 {%  endblock %}
