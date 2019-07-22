@@ -1,4 +1,10 @@
 {
+    "cocur/slugify": {
+        "version": "v3.2"
+    },
+    "codacy/coverage": {
+        "version": "dev-master"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -97,6 +103,9 @@
     },
     "fzaninotto/faker": {
         "version": "v1.8.0"
+    },
+    "gitonomy/gitlib": {
+        "version": "v1.1.0"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"

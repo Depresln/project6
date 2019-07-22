@@ -104,3 +104,7 @@ h2 {
 .italic {
     font-style: italic;
 }
+
+#showMediaBtn{
+    display: none;
+}

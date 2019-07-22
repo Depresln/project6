@@ -12,31 +12,35 @@
         <section class="articles">
             <div class="row">
                     {% for trick in tricks %}
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-12 col-lg-6 col-xl-3">
                             <article>
                                 <div class="content">
 
-                                    <a href="{{ path('blog_show', {'id': trick.id}) }}"><img src="{{ asset('img/' ~ trick.getFirstMediaImage ) }}" alt="" class="img-fluid"></a>
+                                    <a href="{{ path('blog_show', {'id': trick.id, slug: trick.slug}) }}"><img src="{{ asset('img/' ~ trick.getFirstMediaImage ) }}" alt="" class="img-fluid"></a>
 
                                     <div class="row">
-                                        <div class="col-sm-6 col-lg-8">
-                                            <a href="{{ path('blog_show', {'id': trick.id}) }}"><h4>{{ trick.title }}</h4></a>
+                                        <div class="col-sm-10 col-lg-8">
+                                            <a href="{{ path('blog_show', {'id': trick.id, slug: trick.slug}) }}"><h4>{{ trick.title }}</h4></a>
                                         </div>
                                         {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
-                                            <div class="col-sm-3 col-lg-2">
-                                                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
+                                            <div class="col-sm-1 col-lg-2">
+                                                <a href="{{ path('blog_edit', {'id': trick.id, slug: trick.slug}) }}"><i class="fa fa-pencil"></i></a>
                                             </div>
-                                            <div class="col-sm-3 col-lg-2">
-                                                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Voulez vous supprimer ce trick?');"><i class="fa fa-trash"></i></a>
+                                            <div class="col-sm-1 col-lg-2">
+                                                <a href="{{ path('blog_delete', {'id': trick.id, slug: trick.slug}) }}" onclick="return confirm('Voulez vous supprimer ce trick?');"><i class="fa fa-trash"></i></a>
                                             </div>
                                         {% elseif app.user and app.user != trick.user %}
-                                            <div class="col-sm-3 col-lg-2">
-                                                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="fa fa-pencil"></i></a>
+                                            <div class="col-sm-1 col-lg-2">
+                                                <a href="{{ path('blog_edit', {'id': trick.id, slug: trick.slug}) }}"><i class="fa fa-pencil"></i></a>
                                             </div>
                                         {% endif %}
                                     </div>
                                 </div>
                             </article>
+                            <div class="d-lg-none">
+                                <br />
+                                <br />
+                            </div>
                         </div>
                     {% endfor %}
             </div>
