@@ -6,8 +6,8 @@
 
         {% if app.user == trick.user or app.user and app.user.isAdmin == 1 %}
             <div class="row-icon">
-                <a href="{{ path('blog_edit', {'id': trick.id}) }}"><i class="iconShow fa fa-pencil"></i></a>
-                <a href="{{ path('blog_delete', {'id': trick.id}) }}" onclick="return confirm('Delete trick?');"><i class="iconShow fa fa-trash"></i></a>
+                <a href="{{ path('blog_edit', {'id': trick.id, slug: trick.slug}) }}"><i class="iconShow fa fa-pencil"></i></a>
+                <a href="{{ path('blog_delete', {'id': trick.id, slug: trick.slug}) }}" onclick="return confirm('Delete trick?');"><i class="iconShow fa fa-trash"></i></a>
             </div>
         {% endif %}
         <h2>{{ trick.title }}</h2>
@@ -39,6 +39,26 @@
                                 <a href="{{ path('media_delete', {'id': media.id}) }}" onclick="return confirm('Delete media?');"><i class="iconShow fa fa-trash"></i></a>
                             </div>
                         {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <button class="btn btn-success d-block d-sm-none" onclick="showMedia()">Show media</button>
+        <div id="showMediaBtn" class="row">
+            {% if app.user %}
+                <div class="d-block d-sm-none col-xs-3">
+                    <a href="{{ path('add_media', {'id': trick.id}) }}"><img class="mediaList mediaAddBtn" src="{{ asset('img/addMedia.png') }}" /></a>
+                </div>
+            {% endif %}
+            {% for media in trick.medias %}
+                {% if media.type == 1 %}
+                    <div class="d-block d-sm-none col-xs-3">
+                        <img class="mediaList" src="{{ asset('img/' ~ media.content ) }}" />
+                    </div>
+                {% elseif media.type == 2 %}
+                    <div class="d-block d-sm-none col-xs-3">
+                        <iframe class="mediaList" src="{{ media.content }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 {% endif %}
             {% endfor %}

@@ -26,3 +26,12 @@ $(window).scroll(function() {
         $('#scrollToTop').fadeIn("fast");
     }
 });
+
+function showMedia() {
+    var x = document.getElementById("showMediaBtn");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}

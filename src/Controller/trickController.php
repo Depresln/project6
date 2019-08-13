@@ -53,7 +53,7 @@ class trickController extends AbstractController
 
     /**
      * @Route("/blog/new", name="blog_create")
-     * @Route("/blog/{id}/edit", name="blog_edit")
+     * @Route("/blog/{slug}-{id}/edit", name="blog_edit", requirements={"slug": "[a-z0-9\-]*"})
      */
     public function trickForm(Trick $trick = null, Request $request, EntityManagerInterface $manager)
     {
@@ -74,7 +74,10 @@ class trickController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         return $this->render('blog/create.html.twig', [
@@ -85,9 +88,9 @@ class trickController extends AbstractController
     }
 
     /**
-     * @Route("/blog/{id}", name="blog_show")
+     * @Route("/blog/{slug}-{id}", name="blog_show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(PaginatorInterface $paginator, Trick $trick, Request $request, ObjectManager $manager)
+    public function show(string $slug, PaginatorInterface $paginator, Trick $trick, Request $request, ObjectManager $manager)
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -110,7 +113,10 @@ class trickController extends AbstractController
             $manager->persist($comment);
             $manager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         $hasImage = FALSE;
@@ -119,6 +125,13 @@ class trickController extends AbstractController
                 $hasImage = TRUE;
                 break;
             }
+        }
+
+        if($trick->getSlug() !== $slug){
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         return $this->render('blog/show.html.twig', [
@@ -130,7 +143,7 @@ class trickController extends AbstractController
     }
 
     /**
-     * @Route("/blog/delete/{id}", name="blog_delete")
+     * @Route("/blog/delete/{slug}-{id}", name="blog_delete", requirements={"slug": "[a-z0-9\-]*"})
      */
     public function delete(TrickRepository $repo, $id)
     {
