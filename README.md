@@ -8,7 +8,7 @@ Codacy analysis: <https://app.codacy.com/project/Depresln/project6/dashboard?bid
 
 1.  Get the project by downloading it as a ZIP on <https://github.com/Depresln/project6>
 
-2.  For FTP management use those logs:  Host: ftp.cluster020.hosting.ovh.net  Id: nicolasdht  PW: JUCmfPtvbBKr  Port: 21
+2.  For FTP management use those logs:  Host: ftp.cluster020.hosting.ovh.net  Id: nicolasdht  PW: Bonjour123  Port: 21
 
 3.  For local use, load the files with your IDE and access it with the command line "php bin/console server:run". Don't forget to download the database set and add it on localhost phpMyAdmin.
 
