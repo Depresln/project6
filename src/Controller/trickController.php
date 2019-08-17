@@ -240,7 +240,10 @@ class trickController extends AbstractController
             $manager->persist($media);
             $manager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         $formVideo = $this->createForm(VideoType::class, $media);
@@ -255,7 +258,10 @@ class trickController extends AbstractController
             $manager->persist($media);
             $manager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         return $this->render('blog/addMedia.html.twig', [
@@ -279,7 +285,10 @@ class trickController extends AbstractController
             $entityManager->remove($media);
             $entityManager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' => $idTrick]);
+            return $this->redirectToRoute('blog_show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ]);
         }
         return $this->redirectToRoute('home');
     }

@@ -55,7 +55,7 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="trick", orphanRemoval=true)
      */
     private $medias;
 
